@@ -61,10 +61,10 @@ export function runInvestmentSteps(amountToInvest, stepSize, categories) {
         }
         inv.amount = add(inv.amount, chunk);
 
-        // Update the category's current value
+        // Update the category's current value without rounding
         const currNum = Number(category.currentValue);
         const currSafe = Number.isFinite(currNum) ? currNum : 0;
-        category.currentValue = add(currSafe, chunk);
+        category.currentValue = currSafe + chunk;
 
         remaining = roundToStepDecimals(remaining - chunk);
     }
