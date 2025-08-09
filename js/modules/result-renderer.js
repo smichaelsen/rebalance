@@ -26,6 +26,20 @@ function fmtValue(n) {
 }
 
 /**
+ * Escape HTML special characters to avoid XSS when injecting into innerHTML.
+ * @param {string} s
+ */
+function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+/**
  * Safely get the allocation percentage for a given category from a list of allocations.
  * @param {Allocation[]} allocations
  * @param {Category} category
@@ -126,7 +140,21 @@ export default function renderResult(result) {
             if (el) el.textContent = text;
         };
 
-        setText('[data-field="name"]', String(category?.name ?? ''));
+        // Name and optional ISIN (ISIN shown below name, small and muted)
+        {
+            const nameEl = tr.querySelector('[data-field="name"]');
+            if (nameEl) {
+                const name = String(category?.name ?? '');
+                const isinRaw = /** @type {string|undefined} */ (category?.isin);
+                const isin = typeof isinRaw === 'string' ? isinRaw.trim() : '';
+                if (isin) {
+                    nameEl.innerHTML = `${escapeHtml(name)}<div class="small text-muted" style="font-weight: normal">${escapeHtml(isin)}</div>`;
+                } else {
+                    nameEl.textContent = name;
+                }
+            }
+        }
+
         setText('[data-field="target"]', fmtPercent(target));
         setText('[data-field="before"]', fmtPercent(before));
         setText('[data-field="added"]', fmtValue(added));
