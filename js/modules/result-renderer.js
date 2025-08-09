@@ -148,7 +148,7 @@ export default function renderResult(result) {
                 const isinRaw = /** @type {string|undefined} */ (category?.isin);
                 const isin = typeof isinRaw === 'string' ? isinRaw.trim() : '';
                 if (isin) {
-                    nameEl.innerHTML = `${escapeHtml(name)}<div class="small text-muted" style="font-weight: normal">${escapeHtml(isin)}</div>`;
+                    nameEl.innerHTML = `${escapeHtml(name)} <span class="small text-muted" style="font-weight: normal">${escapeHtml(isin)}</span>`;
                 } else {
                     nameEl.textContent = name;
                 }
