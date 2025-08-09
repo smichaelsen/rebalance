@@ -1,0 +1,101 @@
+let currentLanguage = 'en';
+
+const labels = {
+    en: {
+        app_title: 'Cashflow Rebalancing Calculator',
+        h1_title: 'Cashflow Rebalancing Tool',
+        input_data_title: 'Input Data',
+        amount_to_invest_label: 'Amount to Invest',
+        round_invested_label: 'Round invested amount per asset',
+        add_category_button: 'Add Category',
+        total_allocation_prefix: 'Total allocation:',
+        calculate_button: 'Calculate Rebalancing',
+        results_title: 'Results',
+        submit_form_to_see_results: 'Submit the form to see rebalancing results.',
+        no_results: 'No results to display.',
+        table_header_asset: 'Asset',
+        table_header_target: 'Target',
+        table_header_before: 'Before',
+        table_header_added: 'Added',
+        table_header_new_value: 'New Value',
+        table_header_achieved: 'Achieved',
+        table_footer_total: 'Total',
+        category_asset_placeholder: 'Asset name ..',
+        category_isin_placeholder: 'ISIN (optional) ..',
+        move_up_title: 'Move Up',
+        move_down_title: 'Move Down',
+        target_allocation_label: 'Target Allocation (%)',
+        current_value_label: 'Current Value',
+        remove_button: 'Remove',
+        select_language: 'Language',
+    },
+    de: {
+        app_title: 'Cashflow Rebalancing Rechner',
+        h1_title: 'Cashflow Rebalancing Tool',
+        input_data_title: 'Eingabe',
+        amount_to_invest_label: 'Zu investierender Betrag',
+        round_invested_label: 'Investierten Betrag pro Asset runden',
+        add_category_button: 'Asset hinzufügen',
+        total_allocation_prefix: 'Gesamtallokation:',
+        calculate_button: 'Rebalancing berechnen',
+        results_title: 'Ergebnisse',
+        submit_form_to_see_results: 'Formular absenden, um die Rebalancing-Ergebnisse zu sehen.',
+        no_results: 'Keine Ergebnisse zum Anzeigen.',
+        table_header_asset: 'Asset',
+        table_header_target: 'Ziel',
+        table_header_before: 'Vorher',
+        table_header_added: 'Hinzugefügt',
+        table_header_new_value: 'Neuer Wert',
+        table_header_achieved: 'Erreicht',
+        table_footer_total: 'Summe',
+        category_asset_placeholder: 'Asset-Name ..',
+        category_isin_placeholder: 'ISIN (optional) ..',
+        move_up_title: 'Nach oben',
+        move_down_title: 'Nach unten',
+        target_allocation_label: 'Zielallokation (%)',
+        current_value_label: 'Aktueller Wert',
+        remove_button: 'Entfernen',
+        select_language: 'Sprache',
+    },
+    es: {
+        app_title: 'Calculadora de rebalanceo de flujo de caja',
+        h1_title: 'Calculadora de rebalanceo de flujo de caja',
+        input_data_title: 'Entrada',
+        amount_to_invest_label: 'Monto a invertir',
+        round_invested_label: 'Redondear monto invertido por activo',
+        add_category_button: 'Agregar activo',
+        total_allocation_prefix: 'Asignación total:',
+        calculate_button: 'Calcular rebalanceo',
+        results_title: 'Resultados',
+        submit_form_to_see_results: 'Envíe el formulario para ver los resultados del rebalanceo.',
+        no_results: 'No hay resultados para mostrar.',
+        table_header_asset: 'Activo',
+        table_header_target: 'Objetivo',
+        table_header_before: 'Antes',
+        table_header_added: 'Añadido',
+        table_header_new_value: 'Nuevo valor',
+        table_header_achieved: 'Alcanzado',
+        table_footer_total: 'Total',
+        category_asset_placeholder: 'Nombre del activo ..',
+        category_isin_placeholder: 'ISIN (opcional) ..',
+        move_up_title: 'Mover arriba',
+        move_down_title: 'Mover abajo',
+        target_allocation_label: 'Asignación objetivo (%)',
+        current_value_label: 'Valor actual',
+        remove_button: 'Eliminar',
+        select_language: 'Idioma',
+    },
+}
+
+export function label (key) {
+    return labels[currentLanguage][key] || key;
+}
+
+export function setLanguage(lang) {
+    if (labels[lang]) {
+        currentLanguage = lang;
+    } else {
+        console.warn(`Language "${lang}" not supported, falling back to "en".`);
+        currentLanguage = 'en';
+    }
+}

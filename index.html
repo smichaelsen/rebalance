@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Cashflow Rebalancing Calculator</title>
+    <title data-label="app_title"></title>
     <link rel="stylesheet" href="bootstrap.min.css"/>
     <script src="js/main.js" type="module"></script>
     <style>
@@ -13,27 +13,31 @@
         tfoot {
             font-style: italic;
         }
+
+        reb-language-select {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="mb-4">Cashflow Rebalancing Tool</h1>
+    <h1 class="mb-4" data-label="h1_title"></h1>
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Input Data</h2>
+                    <h2 class="card-title" data-label="input_data_title"></h2>
                 </div>
                 <div class="card-body">
                     <form id="rebalancingForm" class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="amountToInvest" class="form-label">Amount to Invest</label>
+                                <label for="amountToInvest" class="form-label" data-label="amount_to_invest_label"></label>
                                 <input type="number" class="form-control" id="amountToInvest" step="0.01" min="0" required>
                             </div>
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="roundInvestedAmount">
-                                <label class="form-check-label" for="roundInvestedAmount">Round invested amount per asset</label>
+                                <label class="form-check-label" for="roundInvestedAmount" data-label="round_invested_label"></label>
                             </div>
                         </div>
                         <div class="col-md-8">
@@ -42,33 +46,30 @@
                             </div>
 
                             <div class="mb-3">
-                                <button type="button" id="addCategoryBtn" class="btn btn-secondary">Add Category
-                                </button>
+                                <button type="button" id="addCategoryBtn" class="btn btn-secondary" data-label="add_category_button"></button>
                             </div>
 
                             <div class="mb-3">
                                 <div class="alert alert-info">
-                                    Total allocation: <span id="totalAllocation">0</span>%
+                                    <span data-label="total_allocation_prefix"></span> <span id="totalAllocation">0</span>%
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Calculate Rebalancing</button>
+                            <button type="submit" class="btn btn-primary" data-label="calculate_button"></button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12 mb-4">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Results</h2>
+                    <h2 class="card-title" data-label="results_title"></h2>
                 </div>
                 <div class="card-body">
                     <div id="resultsContainer">
-                        <div class="alert alert-secondary">
-                            Submit the form to see rebalancing results.
-                        </div>
+                        <div class="alert alert-secondary" data-label="submit_form_to_see_results"></div>
                     </div>
                 </div>
             </div>
@@ -78,7 +79,7 @@
     
     <!-- Templates for results rendering -->
     <template id="no-results-template">
-        <div class="alert alert-secondary">No results to display.</div>
+        <div class="alert alert-secondary" data-label="no_results"></div>
     </template>
 
     <template id="result-row-template">
@@ -96,18 +97,18 @@
         <table class="table table-sm table-striped mb-0">
             <thead>
             <tr>
-                <th>Asset</th>
-                <th>Target</th>
-                <th>Before</th>
-                <th>Added</th>
-                <th>New Value</th>
-                <th>Achieved</th>
+                <th data-label="table_header_asset"></th>
+                <th data-label="table_header_target"></th>
+                <th data-label="table_header_before"></th>
+                <th data-label="table_header_added"></th>
+                <th data-label="table_header_new_value"></th>
+                <th data-label="table_header_achieved"></th>
             </tr>
             </thead>
             <tbody></tbody>
             <tfoot>
             <tr>
-                <th>Total</th>
+                <th data-label="table_footer_total"></th>
                 <th></th>
                 <th></th>
                 <th class="text-end" data-total="added"></th>
@@ -123,27 +124,27 @@
         <div class="category-item mb-3 p-3 border rounded">
             <div class="row">
                 <div class="col-md-6 mb-2">
-                    <input type="text" class="form-control category-name" placeholder="Asset name .." required>
+                    <input type="text" class="form-control category-name" data-label-placeholder="category_asset_placeholder" required>
                 </div>
                 <div class="col-md-4 mb-2">
-                    <input type="text" class="form-control category-isin" placeholder="ISIN (optional) ..">
+                    <input type="text" class="form-control category-isin" data-label-placeholder="category_isin_placeholder">
                 </div>
                 <div class="col-md-2 mb-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary move-up" title="Move Up">↑</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary move-down" title="Move Down">↓</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary move-up" data-label-title="move_up_title">↑</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary move-down" data-label-title="move_down_title">↓</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-2">
-                    <label class="form-label">Target Allocation (%)</label>
+                    <label class="form-label" data-label="target_allocation_label"></label>
                     <input type="number" class="form-control category-target" step="0.1" min="0" max="100" required>
                 </div>
                 <div class="col-md-4 mb-2">
-                    <label class="form-label">Current Value</label>
+                    <label class="form-label" data-label="current_value_label"></label>
                     <input type="number" class="form-control category-current" step="0.01" min="0" required value="0">
                 </div>
                 <div class="col-md-2 mb-2">
-                    <button type="button" class="btn btn-sm btn-danger remove-category">Remove</button>
+                    <button type="button" class="btn btn-sm btn-danger remove-category" data-label="remove_button"></button>
                 </div>
             </div>
         </div>
