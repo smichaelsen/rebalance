@@ -4,6 +4,6 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "node tests/step-size.test.js && node tests/allocations-calculator.test.js && node tests/biggest-deficit-finder.test.js"
+    "test": "node tests/run-all-tests.js"
   }
 }

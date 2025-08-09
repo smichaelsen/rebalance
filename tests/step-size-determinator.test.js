@@ -10,7 +10,7 @@ function assertEqual(actual, expected, message) {
   }
 }
 
-function runTests() {
+export function runTests() {
   const cases = [
     // Provided examples
     { amt: 50, round: false, expected: 0.5, desc: 'example 1: 50, false -> 0.5' },
@@ -50,12 +50,5 @@ function runTests() {
     }
   }
 
-  console.log(`determineStepSize tests: ${passed} passed, ${failed} failed`);
-  if (failed > 0) {
-    console.error('Failures:');
-    for (const f of failures) console.error(' - ' + f);
-    process.exit(1);
-  }
+  return { name: 'step-size-determinator', passed, failed, failures };
 }
-
-runTests();

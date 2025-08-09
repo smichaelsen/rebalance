@@ -5,7 +5,7 @@ function assertEqual(actual, expected, message) {
   if (!same) throw new Error(`${message} - Expected: ${expected}, Actual: ${actual}`);
 }
 
-function runTests() {
+export function runTests() {
   let passed = 0;
   let failed = 0;
   const failures = [];
@@ -105,12 +105,5 @@ function runTests() {
     }
   }
 
-  console.log(`findBiggestDeficit tests: ${passed} passed, ${failed} failed`);
-  if (failed > 0) {
-    console.error('Failures:');
-    for (const f of failures) console.error(' - ' + f);
-    process.exit(1);
-  }
+  return { name: 'biggest-deficit-finder', passed, failed, failures };
 }
-
-runTests();

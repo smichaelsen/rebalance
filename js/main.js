@@ -20,7 +20,7 @@ document.querySelectorAll('template').forEach((tpl) => {
 });
 
 /** @type {(event: CustomEvent<InputFormSubmitDetail>) => void} */
-const onInputFormSubmit = (event) => {
+const onInputFormValid = (event) => {
     const calculationResult = calculate(
         event.detail.amountToInvest,
         event.detail.roundInvestedAmount,
@@ -29,7 +29,8 @@ const onInputFormSubmit = (event) => {
     renderResult(calculationResult);
 };
 
-document.addEventListener('input-form:valid', onInputFormSubmit);
+document.addEventListener('input-form:valid', onInputFormValid);
+document.addEventListener('input-form:invalid', () => { renderResult({}) });
 initializeInputForm();
 
 const languageSelect = document.createElement('reb-language-select');

@@ -38,13 +38,13 @@ export function runInvestmentSteps(amountToInvest, stepSize, categories) {
     const roundToStepDecimals = (v) => Math.round(v * factor) / factor;
     const add = (a, b) => Math.round((a * factor + b * factor)) / factor;
 
-    let remaining = roundToStepDecimals(amt);
+    let remaining = amt;
 
     // Safety cap to prevent infinite loops due to rounding issues
     const maxIterations = Math.ceil(amt / step) + 5;
     let iterations = 0;
 
-    while (remaining > 0 && iterations < maxIterations) {
+    while (remaining >= stepSize && iterations < maxIterations) {
         iterations++;
         const chunkRaw = remaining < step ? remaining : step;
         const chunk = roundToStepDecimals(chunkRaw);
@@ -66,7 +66,7 @@ export function runInvestmentSteps(amountToInvest, stepSize, categories) {
         const currSafe = Number.isFinite(currNum) ? currNum : 0;
         category.currentValue = currSafe + chunk;
 
-        remaining = roundToStepDecimals(remaining - chunk);
+        remaining = remaining - chunk;
     }
 
     return investments;

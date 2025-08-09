@@ -18,7 +18,7 @@ function sumPercentages(allocations) {
   return allocations.reduce((acc, a) => acc + a.percentage, 0);
 }
 
-function runTests() {
+export function runTests() {
   let passed = 0;
   let failed = 0;
   const failures = [];
@@ -86,12 +86,5 @@ function runTests() {
     failures.push(e.message);
   }
 
-  console.log(`calculateAllocations tests: ${passed} passed, ${failed} failed`);
-  if (failed > 0) {
-    console.error('Failures:');
-    for (const f of failures) console.error(' - ' + f);
-    process.exit(1);
-  }
+  return { name: 'allocations-calculator', passed, failed, failures };
 }
-
-runTests();

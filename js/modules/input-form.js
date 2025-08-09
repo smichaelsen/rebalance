@@ -23,6 +23,14 @@ function setupEventListeners() {
         }
     });
 
+    // Fire input-form:changed on invested amount and rounding checkbox changes
+    document.getElementById('amountToInvest').addEventListener('input', () => {
+        dispatchChangedEvent();
+    });
+    document.getElementById('roundInvestedAmount').addEventListener('change', () => {
+        dispatchChangedEvent();
+    });
+
     // Delegate event for remove buttons and move buttons (including future ones)
     document.getElementById('categoriesContainer').addEventListener('click', (event) => {
         if (event.target.classList.contains('remove-category')) {
@@ -32,6 +40,22 @@ function setupEventListeners() {
         } else if (event.target.classList.contains('move-down')) {
             moveDown(event);
         }
+    });
+
+    // Fire input-form:changed when any category input changes
+    document.getElementById('categoriesContainer').addEventListener('input', (event) => {
+        const el = event.target;
+        if (el.classList.contains('category-name') ||
+            el.classList.contains('category-isin') ||
+            el.classList.contains('category-target') ||
+            el.classList.contains('category-current')) {
+            dispatchChangedEvent();
+        }
+    });
+
+    // Listen to input-form:changed and call dispatchValidEvent
+    document.addEventListener('input-form:changed', () => {
+        dispatchValidEvent();
     });
 
     // Listen for blur events on form inputs to save data to localStorage
@@ -79,6 +103,8 @@ function removeCategory(event) {
 
         // Save form data after removing a category
         saveFormDataToLocalStorage();
+        // Notify that the input form data changed
+        dispatchChangedEvent();
     } else {
         alert('You must have at least one category');
     }
@@ -94,6 +120,8 @@ function moveUp(event) {
 
         // Save the new order to localStorage
         saveFormDataToLocalStorage();
+        // Notify that the input form data changed
+        dispatchChangedEvent();
     }
 }
 
@@ -107,6 +135,8 @@ function moveDown(event) {
 
         // Save the new order to localStorage
         saveFormDataToLocalStorage();
+        // Notify that the input form data changed
+        dispatchChangedEvent();
     }
 }
 
@@ -151,8 +181,8 @@ function collectFormData() {
     document.querySelectorAll('.category-item').forEach(item => {
         categories.push({
             name: item.querySelector('.category-name').value,
-            targetAllocation: item.querySelector('.category-target').value,
-            currentValue: item.querySelector('.category-current').value,
+            targetAllocation: parseFloat(item.querySelector('.category-target').value),
+            currentValue: parseFloat(item.querySelector('.category-current').value),
             isin: item.querySelector('.category-isin').value || null
         });
     });
@@ -227,13 +257,19 @@ function dispatchValidEvent() {
         const value = parseFloat(input.value) || 0;
         total += value;
     });
+    const form = document.getElementById('rebalancingForm');
     if (Math.abs(total - 100) < 0.1) {
         const formData = collectFormData();
-        document.getElementById('rebalancingForm')
-            .dispatchEvent(new CustomEvent('input-form:valid', { detail: formData, bubbles: true }));
+        form.dispatchEvent(new CustomEvent('input-form:valid', { detail: formData, bubbles: true }));
     } else {
-        console.log('no');
+        form.dispatchEvent(new CustomEvent('input-form:invalid', { bubbles: true }));
     }
 }
 
 export default initialize;
+
+function dispatchChangedEvent() {
+    const formData = collectFormData();
+    document.getElementById('rebalancingForm')
+        .dispatchEvent(new CustomEvent('input-form:changed', { detail: formData, bubbles: true }));
+}
