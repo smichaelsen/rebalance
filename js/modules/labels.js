@@ -30,6 +30,7 @@ const labels = {
         select_language: 'Language',
         data_privacy_anchor: 'Data Privacy',
         data_privacy_content: 'All information that you provide to this calculator is stored in your browser only. It is not sent to any server or third party. When you requested this page from GitHub, your browser sent technically necessary data like your IP address.',
+        disclaimer: 'The calculator does suggest a possible way how to allocate your cashflow if you want to apply cash flow rebalancing. It does not advise you to use cash flow rebalancing nor to invest in the assets that you have provided. Also the calculation can contain errors. Please hold yourself responsible for your investments and do not rely on this calculator for any financial decisions.',
     },
     de: {
         app_title: 'Cashflow Rebalancing Rechner',
@@ -59,7 +60,8 @@ const labels = {
         remove_button: 'Entfernen',
         select_language: 'Sprache',
         data_privacy_anchor: 'Datenschutz',
-        data_privacy_content: 'Alle Informationen, die Sie diesem Rechner zur Verfügung stellen, werden nur in Ihrem Browser gespeichert. Sie werden nicht an einen Server oder Dritte gesendet. Als Sie diese Seite von GitHub angefordert haben, hat Ihr Browser technisch notwendige Daten wie Ihre IP-Adresse gesendet.',
+        data_privacy_content: 'Alle Informationen, die du diesem Rechner zur Verfügung stellst, werden nur in deinem Browser gespeichert. Sie werden nicht an einen Server oder Dritte gesendet. Als du diese Seite von GitHub angefordert hast, hat dein Browser technisch notwendige Daten wie deine IP-Adresse gesendet.',
+        disclaimer: 'Der Rechner schlägt eine mögliche Art vor, wie du deinen Cashflow allokieren kannst, wenn du Cashflow-Rebalancing anwenden möchtest. Er empfiehlt nicht, Cashflow-Rebalancing zu verwenden oder in die von dir angegebenen Assets zu investieren. Außerdem kann die Berechnung Fehler enthalten. Bitte übernimm die Verantwortung für deine Investitionen und verlasse dich nicht auf diesen Rechner für finanzielle Entscheidungen.',
     },
     es: {
         app_title: 'Calculadora de rebalanceo de flujo de caja',
@@ -90,6 +92,7 @@ const labels = {
         select_language: 'Idioma',
         data_privacy_anchor: 'Privacidad de datos',
         data_privacy_content: 'Toda la información que proporcione a esta calculadora se almacena solo en su navegador. No se envía a ningún servidor o tercero. Cuando solicitó esta página desde GitHub, su navegador envió datos técnicamente necesarios como su dirección IP.',
+        disclaimer: 'La calculadora sugiere una posible forma de asignar su flujo de caja si desea aplicar el rebalanceo de flujo de caja. No le aconseja usar el rebalanceo de flujo de caja ni invertir en los activos que ha proporcionado. Además, el cálculo puede contener errores. Por favor, asuma la responsabilidad de sus inversiones y no confíe en esta calculadora para tomar decisiones financieras.',
     },
 }
 
