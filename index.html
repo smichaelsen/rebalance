@@ -75,5 +75,78 @@
         </div>
     </div>
 </div>
+    
+    <!-- Templates for results rendering -->
+    <template id="no-results-template">
+        <div class="alert alert-secondary">No results to display.</div>
+    </template>
+
+    <template id="result-row-template">
+        <tr>
+            <td data-field="name"></td>
+            <td class="text-end" data-field="target"></td>
+            <td class="text-end" data-field="before"></td>
+            <td class="text-end" data-field="added"></td>
+            <td class="text-end" data-field="newValue"></td>
+            <td class="text-end" data-field="achieved"></td>
+        </tr>
+    </template>
+
+    <template id="result-table-template">
+        <table class="table table-sm table-striped mb-0">
+            <thead>
+            <tr>
+                <th>Asset</th>
+                <th>Target</th>
+                <th>Before</th>
+                <th>Added</th>
+                <th>New Value</th>
+                <th>Achieved</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+            <tr>
+                <th>Total</th>
+                <th></th>
+                <th></th>
+                <th class="text-end" data-total="added"></th>
+                <th class="text-end" data-total="newValue"></th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+    </template>
+
+    <!-- Template for input form category item -->
+    <template id="category-item-template">
+        <div class="category-item mb-3 p-3 border rounded">
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <input type="text" class="form-control category-name" placeholder="Asset name .." required>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <input type="text" class="form-control category-isin" placeholder="ISIN (optional) ..">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary move-up" title="Move Up">↑</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary move-down" title="Move Down">↓</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <label class="form-label">Target Allocation (%)</label>
+                    <input type="number" class="form-control category-target" step="0.1" min="0" max="100" required>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label class="form-label">Current Value</label>
+                    <input type="number" class="form-control category-current" step="0.01" min="0" required value="0">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button type="button" class="btn btn-sm btn-danger remove-category">Remove</button>
+                </div>
+            </div>
+        </div>
+    </template>
 </body>
 </html>

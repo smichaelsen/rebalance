@@ -45,43 +45,28 @@ function setupEventListeners() {
 
 function addCategory() {
     const container = document.getElementById('categoriesContainer');
+    const tmpl = /** @type {HTMLTemplateElement|null} */ (document.getElementById('category-item-template'));
 
-    const categoryItem = document.createElement('div');
-    categoryItem.className = 'category-item mb-3 p-3 border rounded';
-    categoryItem.innerHTML = `
-            <div class="row">
-                <div class="col-md-6 mb-2">
-                    <input type="text" class="form-control category-name" placeholder="Asset name .." required>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <input type="text" class="form-control category-isin" placeholder="ISIN (optional) ..">
-                </div>
-                <div class="col-md-2 mb-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary move-up" title="Move Up">↑</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary move-down" title="Move Down">↓</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-2">
-                    <label class="form-label">Target Allocation (%)</label>
-                    <input type="number" class="form-control category-target" step="0.1" min="0" max="100" required>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <label class="form-label">Current Value</label>
-                    <input type="number" class="form-control category-current" step="0.01" min="0" required value="0">
-                </div>
-                <div class="col-md-2 mb-2">
-                    <button type="button" class="btn btn-sm btn-danger remove-category">Remove</button>
-                </div>
-            </div>
-        `;
+    if (!tmpl || !tmpl.content) {
+        alert('Category template is missing.');
+        return;
+    }
+
+    const fragment = tmpl.content.cloneNode(true);
+    /** @type {HTMLElement|null} */
+    const categoryItem = /** @type {HTMLElement} */ (fragment.querySelector('.category-item'));
+
+    if (!categoryItem) {
+        alert('Invalid category template structure.');
+        return;
+    }
 
     container.appendChild(categoryItem);
     updateTotalAllocation();
 
     // focus on the new category name input
     const categoryNameInput = categoryItem.querySelector('.category-name');
-    categoryNameInput.focus();
+    if (categoryNameInput) categoryNameInput.focus();
 }
 
 function removeCategory(event) {

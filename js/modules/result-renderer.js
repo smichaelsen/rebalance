@@ -16,7 +16,7 @@ function fmtPercent(n) {
 }
 
 /**
- * Format a number as a value with two decimals and thousand separators.
+ * Format a number as a value with two decimals and thousands separators.
  * @param {number} n
  */
 function fmtValue(n) {
@@ -63,9 +63,25 @@ export default function renderResult(result) {
     const container = document.getElementById('resultsContainer');
     if (!container) return;
 
+    const tableTmpl = /** @type {HTMLTemplateElement|null} */ (document.getElementById('result-table-template'));
+    const rowTmpl = /** @type {HTMLTemplateElement|null} */ (document.getElementById('result-row-template'));
+    const noResTmpl = /** @type {HTMLTemplateElement|null} */ (document.getElementById('no-results-template'));
+
     // Basic validation
     if (!result || !Array.isArray(result.categories) || result.categories.length === 0) {
-        container.innerHTML = '<div class="alert alert-secondary">No results to display.</div>';
+        container.innerHTML = '';
+        if (noResTmpl?.content) {
+            container.appendChild(noResTmpl.content.cloneNode(true));
+        } else {
+            // Fallback to plain text (no markup) if template is missing
+            container.textContent = 'No results to display.';
+        }
+        return;
+    }
+
+    if (!tableTmpl || !rowTmpl) {
+        // Use template-based alert; fallback to plain text if also missing
+        container.textContent = 'Result templates are missing.';
         return;
     }
 
@@ -74,22 +90,20 @@ export default function renderResult(result) {
     let totalAdded = 0;
     let totalNewValue = 0;
 
-    // Build table
-    const table = document.createElement('table');
-    table.className = 'table table-sm table-striped mb-0';
+    // Build table from template
+    const tableFragment = tableTmpl.content.cloneNode(true);
+    /** @type {HTMLTableElement|null} */
+    const table = (tableFragment instanceof DocumentFragment)
+        ? /** @type {HTMLTableElement} */ (tableFragment.querySelector('table'))
+        : /** @type {HTMLTableElement} */ (tableFragment);
 
-    const thead = document.createElement('thead');
-    thead.innerHTML = `
-        <tr>
-            <th>Asset</th>
-            <th>Target</th>
-            <th>Before</th>
-            <th>Added</th>
-            <th>New Value</th>
-            <th>Achieved</th>
-        </tr>`;
+    const tbody = table?.querySelector('tbody');
+    const tfoot = table?.querySelector('tfoot');
 
-    const tbody = document.createElement('tbody');
+    if (!table || !tbody || !tfoot) {
+        container.textContent = 'Invalid result table template.';
+        return;
+    }
 
     for (const category of categories) {
         const target = getAllocationPercentage(targetAllocations, category);
@@ -101,50 +115,34 @@ export default function renderResult(result) {
         totalAdded += added;
         totalNewValue += newValue;
 
-        const tr = document.createElement('tr');
+        const rowFrag = rowTmpl.content.cloneNode(true);
+        /** @type {HTMLTableRowElement|null} */
+        const tr = /** @type {HTMLTableRowElement} */ (rowFrag.querySelector('tr'));
+        if (!tr) continue;
         if (added > 0) tr.classList.add('font-weight-bold');
 
-        tr.innerHTML = `
-            <td>${escapeHtml(category?.name ?? '')}</td>
-            <td class="text-end">${fmtPercent(target)}</td>
-            <td class="text-end">${fmtPercent(before)}</td>
-            <td class="text-end">${fmtValue(added)}</td>
-            <td class="text-end">${fmtValue(newValue)}</td>
-            <td class="text-end">${fmtPercent(achieved)}</td>
-        `;
+        const setText = (selector, text) => {
+            const el = tr.querySelector(selector);
+            if (el) el.textContent = text;
+        };
+
+        setText('[data-field="name"]', String(category?.name ?? ''));
+        setText('[data-field="target"]', fmtPercent(target));
+        setText('[data-field="before"]', fmtPercent(before));
+        setText('[data-field="added"]', fmtValue(added));
+        setText('[data-field="newValue"]', fmtValue(newValue));
+        setText('[data-field="achieved"]', fmtPercent(achieved));
+
         tbody.appendChild(tr);
     }
 
-    const tfoot = document.createElement('tfoot');
-    const footTr = document.createElement('tr');
-    footTr.innerHTML = `
-        <th>Total</th>
-        <th></th>
-        <th></th>
-        <th class="text-end">${fmtValue(totalAdded)}</th>
-        <th class="text-end">${fmtValue(totalNewValue)}</th>
-        <th></th>
-    `;
-    tfoot.appendChild(footTr);
-
-    table.appendChild(thead);
-    table.appendChild(tbody);
-    table.appendChild(tfoot);
+    // Fill totals in tfoot
+    const totalAddedCell = tfoot.querySelector('[data-total="added"]');
+    const totalNewValueCell = tfoot.querySelector('[data-total="newValue"]');
+    if (totalAddedCell) totalAddedCell.textContent = fmtValue(totalAdded);
+    if (totalNewValueCell) totalNewValueCell.textContent = fmtValue(totalNewValue);
 
     // Replace container content
     container.innerHTML = '';
     container.appendChild(table);
-}
-
-/**
- * Minimal HTML escape to avoid issues if names contain angle brackets.
- * @param {string} s
- */
-function escapeHtml(s) {
-    return String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
 }
