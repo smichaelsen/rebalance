@@ -34,14 +34,13 @@ const onInputFormSubmit = (event) => {
 document.addEventListener('input-form:submit', onInputFormSubmit);
 
 const languageSelect = document.createElement('reb-language-select');
-languageSelect.classList.add('mb-4');
 languageSelect.setAttribute('label', label('select_language'));
 languageSelect.setAttribute('options', JSON.stringify([
     { value: 'en', label: 'English' },
     { value: 'de', label: 'Deutsch' },
     { value: 'es', label: 'Español' },
 ]));
-document.querySelector('.container').appendChild(languageSelect);
+document.querySelector('[data-tools]').appendChild(languageSelect);
 document.addEventListener('reb-langauge-select:change', (event) => {
     setLanguage(event.detail.value);
     applyLabels(document);

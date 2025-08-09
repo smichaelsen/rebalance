@@ -28,6 +28,8 @@ const labels = {
         current_value_label: 'Current Value',
         remove_button: 'Remove',
         select_language: 'Language',
+        data_privacy_anchor: 'Data Privacy',
+        data_privacy_content: 'All information that you provide to this calculator is stored in your browser only. It is not sent to any server or third party. Like with any website, when you requested this page your browser has sent technically required data like your IP address to GitHub.',
     },
     de: {
         app_title: 'Cashflow Rebalancing Rechner',
@@ -56,6 +58,8 @@ const labels = {
         current_value_label: 'Aktueller Wert',
         remove_button: 'Entfernen',
         select_language: 'Sprache',
+        data_privacy_anchor: 'Datenschutz',
+        data_privacy_content: 'Alle Informationen, die Sie diesem Rechner zur Verfügung stellen, werden nur in Ihrem Browser gespeichert. Sie werden nicht an einen Server oder Dritte gesendet. Wie bei jeder Website hat Ihr Browser beim Abrufen dieser Seite technisch erforderliche Daten wie Ihre IP-Adresse an GitHub übermittelt.',
     },
     es: {
         app_title: 'Calculadora de rebalanceo de flujo de caja',
@@ -84,6 +88,8 @@ const labels = {
         current_value_label: 'Valor actual',
         remove_button: 'Eliminar',
         select_language: 'Idioma',
+        data_privacy_anchor: 'Privacidad de datos',
+        data_privacy_content: 'Toda la información que proporcione a esta calculadora se almacena solo en su navegador. No se envía a ningún servidor o tercero. Al igual que con cualquier sitio web, cuando solicitó esta página, su navegador envió datos técnicamente necesarios como su dirección IP a GitHub.',
     },
 }
 
