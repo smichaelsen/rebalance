@@ -13,8 +13,7 @@ function setupEventListeners() {
     // Form submission
     document.getElementById('rebalancingForm').addEventListener('submit', (event) => {
         event.preventDefault();
-        const formData = collectFormData();
-        event.target.dispatchEvent(new CustomEvent('input-form:submit', { detail: formData, bubbles: true }));
+        dispatchValidEvent();
     });
 
     // Listen for changes to update total allocation
@@ -215,8 +214,25 @@ function loadFormDataFromLocalStorage() {
                 }
             });
         }
+        // After loading data, if total allocation is valid (≈ 100), fire the event
+        dispatchValidEvent();
     } catch (error) {
         console.error('Error loading form data from localStorage:', error);
+    }
+}
+
+function dispatchValidEvent() {
+    let total = 0;
+    document.querySelectorAll('.category-target').forEach(input => {
+        const value = parseFloat(input.value) || 0;
+        total += value;
+    });
+    if (Math.abs(total - 100) < 0.1) {
+        const formData = collectFormData();
+        document.getElementById('rebalancingForm')
+            .dispatchEvent(new CustomEvent('input-form:valid', { detail: formData, bubbles: true }));
+    } else {
+        console.log('no');
     }
 }
 

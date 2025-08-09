@@ -19,8 +19,6 @@ document.querySelectorAll('template').forEach((tpl) => {
     applyLabels(tpl.content);
 });
 
-initializeInputForm();
-
 /** @type {(event: CustomEvent<InputFormSubmitDetail>) => void} */
 const onInputFormSubmit = (event) => {
     const calculationResult = calculate(
@@ -31,7 +29,8 @@ const onInputFormSubmit = (event) => {
     renderResult(calculationResult);
 };
 
-document.addEventListener('input-form:submit', onInputFormSubmit);
+document.addEventListener('input-form:valid', onInputFormSubmit);
+initializeInputForm();
 
 const languageSelect = document.createElement('reb-language-select');
 languageSelect.setAttribute('label', label('select_language'));
